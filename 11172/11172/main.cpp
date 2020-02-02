@@ -8,13 +8,13 @@
 
 #include <iostream>
 
-int main(int argc, const char * argv[]) {
+int main() {
     int TC, a, b;
-    int i = 0;
     scanf("%d", &TC);
-    while (i < TC) {
+    while (TC--) {
         scanf("%d %d", &a, &b);
-        printf("%c\n", a < b ? '<' : a == b ? '=' : '>');
+        if (a == b) printf("%c\n", '=');
+        else printf("%c\n", a < b ? '<' : '>');
     }
     return 0;
 }
