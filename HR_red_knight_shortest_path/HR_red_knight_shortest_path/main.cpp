@@ -1,3 +1,9 @@
+//
+//  main.cpp
+//  HR_red_knight_shortest_path
+//
+//  Created by Jose Mari Syjuco on 28/1/21.
+//
 #include <stdio.h>
 #include <string>
 
@@ -69,9 +75,7 @@ void move(int curr_row, int curr_col, int steps, int vis[][205], const char** st
     }
 }
 
-// Complete the printShortestPath function below.
 void printShortestPath(int n, int i_start, int j_start, int i_end, int j_end) {
-    // Print the distance along with the sequence of moves.
     N = n;
     tRow = i_end;
     tCol = j_end;
