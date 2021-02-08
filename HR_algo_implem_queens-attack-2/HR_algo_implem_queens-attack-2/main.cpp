@@ -24,7 +24,7 @@ void traverse(int r, int c, int mRow, int mCol) {
         (x > 0 && x <= N) &&
         GRID[y][x] == 0
        ) {
-        GRID[y][x] = 1;
+//        GRID[y][x] = 1; // No need to mark since traverse is linear
         ans++;
         traverse(y, x, mRow, mCol);
     }
@@ -42,7 +42,7 @@ int queensAttack(int n, int k, int r_q, int c_q, vector<vector<int>> obstacles) 
     GRID[r_q][c_q] = 9;
     
     // #3 Set obstacles
-    for (int i = 0; i < obstacles.size(); ++i) {
+    for (auto i = 0U; i < obstacles.size(); ++i) {
         int r = obstacles[i][0];
         int c = obstacles[i][1];
         GRID[r][c] = -1;
@@ -60,17 +60,20 @@ int queensAttack(int n, int k, int r_q, int c_q, vector<vector<int>> obstacles) 
     }
     
     
-    for (int i = 1; i <= n; ++i) {
-        for (int j = 1; j <= n; ++j) {
-            printf("%d ", GRID[i][j]);
-        }
-        printf("\n");
-    }
+//    for (int i = 1; i <= n; ++i) {
+//        for (int j = 1; j <= n; ++j) {
+//            printf("%d ", GRID[i][j]);
+//        }
+//        printf("\n");
+//    }
     printf("%d\n", ans);
     return 1;
 }
 
 int main() {
+    queensAttack(4, 0, 4, 4, {});
     queensAttack(5, 3, 4, 3, {{5,5}, {4,2}, {2,3}});
+    queensAttack(1, 0, 1, 1, {});
+    queensAttack(100000, 0, 4187, 5068, {});
     return 0;
 }
