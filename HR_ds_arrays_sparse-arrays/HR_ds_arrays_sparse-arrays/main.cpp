@@ -1,13 +1,9 @@
-//
-//  main.cpp
-//  HR_ds_arrays_sparse-arrays
-//
-//  Created by Jose Mari Syjuco on 8/2/21.
-//
-
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <iostream>
+#include <string>
 #include <vector>
+
 using namespace std;
 
 bool is_equal(const char* a, const char* b) {
@@ -67,16 +63,69 @@ void SArray::push(const char* e) {
     }
 }
 
-int main(int argc, const char * argv[]) {
-    int N = 10;
-    SArray* sArr = new SArray(N);
-    sArr->push("def");
-    sArr->push("de");
-    sArr->push("fgh");
+// Complete the matchingStrings function below.
+vector<int> matchingStrings(vector<string> strings, vector<string> queries) {
+    SArray* sArr = new SArray(strings.size());
     
-    printf("%d ", sArr->count("de"));
-    printf("%d ", sArr->count("lmn"));
-    printf("%d ", sArr->count("fgh"));
-    printf("\n");
+    for (auto i = 0U; i < strings.size(); ++i) {
+        // printf("%s ", strings[i].c_str());
+        sArr->push(strings[i].c_str());
+    }
+    // printf("\n");
+    
+    vector<int> ans;
+    for (auto i = 0U; i < queries.size(); ++i) {
+        // printf("%s ", queries[i].c_str());
+        int count = sArr->count(queries[i].c_str());
+        ans.push_back(count);
+        // printf("%d\n", count);
+    }
+    return ans;
+}
+
+int main()
+{
+//    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int strings_count;
+    cin >> strings_count;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    vector<string> strings(strings_count);
+
+    for (int i = 0; i < strings_count; i++) {
+        string strings_item;
+        getline(cin, strings_item);
+
+        strings[i] = strings_item;
+    }
+
+    int queries_count;
+    cin >> queries_count;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    vector<string> queries(queries_count);
+
+    for (int i = 0; i < queries_count; i++) {
+        string queries_item;
+        getline(cin, queries_item);
+
+        queries[i] = queries_item;
+    }
+
+    vector<int> res = matchingStrings(strings, queries);
+
+    for (auto i = 0U; i < res.size(); i++) {
+        fout << res[i];
+
+        if (i != res.size() - 1) {
+            fout << "\n";
+        }
+    }
+
+    fout << "\n";
+
+    fout.close();
+
     return 0;
 }
