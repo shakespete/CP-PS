@@ -22,13 +22,13 @@ void str_copy(char* des, const char* src) {
 }
 
 void move(int curr_row, int curr_col, int steps, int vis[][205], const char** stepList) {
+    // Base Case:
     if (curr_row == tRow && curr_col == tCol && steps < minSteps) {
         minSteps = steps;
         for (int i = 0; i < minSteps; ++i) {
             ans[i] = stepList[i];
         }
     }
-    
     // UL
     if (curr_row - 2 >= 0 && curr_col - 1 >= 0 &&
     (steps + 1 < vis[curr_row - 2][curr_col - 1] || vis[curr_row - 2][curr_col - 1] == 0)) {
