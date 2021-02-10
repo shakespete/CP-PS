@@ -65,7 +65,7 @@ vector<int> cutTheSticks(vector<int> arr) {
 int main(int argc, const char * argv[]) {
     int n = 8; // 6
     
-//    int arr_temp[n] = {5, 4, 4, 2, 2, 8};
+//    int arr_temp[n] = {5, 4, 4, 2, 2, 8};  -> n = 6
     int arr_temp[8] = {1, 2, 3, 4, 3, 3, 2, 1};
     
     vector<int> arr(n);
