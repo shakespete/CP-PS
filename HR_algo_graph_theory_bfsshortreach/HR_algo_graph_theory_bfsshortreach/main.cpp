@@ -35,14 +35,12 @@ void Queue::enq(int e) {
         q = temp;
         capacity *= 2;
     }
-    q[rear] = e;
-    rear++;
+    q[rear++] = e;
 }
 int Queue::deq() {
     if (!empty()) return q[front++];
     return -1;
 }
-
 
 // Graph (BFS)
 class Graph {
@@ -50,6 +48,7 @@ public:
     Graph(int e);
     void addEdge(int v, int w);
     void BFS(int s);
+    int* valArray;
 private:
     int V;          // Number of vertices
     int** adjList;  // Adjacency list
@@ -59,45 +58,50 @@ private:
 Graph::Graph(int e) {
     V = e;
     adjList = new int*[e];
-    visited = new int[e];
+    visited = new int[e]{0};
+    valArray = new int[e]{0};
+    
     for (int i = 1; i < e; ++i)
-        adjList[i] = new int[e]();
+        adjList[i] = new int[e]{0};
 }
-void Graph::addEdge(int v, int w) { adjList[v][w] = 1; }
+void Graph::addEdge(int v, int w) {
+    adjList[v][w] = 1;
+    adjList[w][v] = 1;
+}
 void Graph::BFS(int s) {
+//    for (int i = 1; i < V; ++i) {
+//        for (int j = 1; j < V; ++j) printf("%d ", adjList[i][j]);
+//        printf("\n");
+//    }
+    
     Queue* q = new Queue();
     q->enq(s);
+    
+    int val = 0;
     while (!q->empty()) {
         int u = q->deq();
         visited[u] = 1;
         printf("%d ", u);
         for (int i = 1; i < V; ++i)
             if (adjList[u][i] == 1)
-                if (visited[i] != 1) q->enq(i);
+                if (visited[i] != 1) {
+                    q->enq(i);
+                }
     }
 }
 
 vector<int> bfs(int n, int m, vector<vector<int>> edges, int s) {
-    int nodes = n + 1;
-    Graph* g = new Graph(nodes); // 18
     vector<int> ans;
     
-    for (auto& edge: edges) {
-        // printf("%d %d\n", edge[0], edge[1]);
-        /* Invert map because our direction is target -> source. */
-        // g->addEdge(edge[1], edge[0]);
-        g->addEdge(edge[0], edge[1]);
-        g->addEdge(edge[1], edge[0]);
-    }
+    int nodes = n + 1;
+    Graph* g = new Graph(nodes); // 18
+    for (auto& edge: edges) g->addEdge(edge[0], edge[1]);
     
     g->BFS(s);
-//    for (int i = 1; i <= n; ++i) {
-//        if (i != s) {
-//            int val = g->BFS(i, s);
-//            ans.push_back(val);
-//            printf("%d -> %d: %d\n", s, i, val);
-//        }
-//    }
+    printf("\n");
+    for (int i = 1; i < nodes; ++i) {
+        if (i != s) ans.push_back(g->valArray[i]);
+    }
     return ans;
 }
 
@@ -119,8 +123,8 @@ int main(int argc, const char * argv[]) {
     edges_1[13] = { 13, 17 };
     edges_1[14] = { 15, 16 };
     
-    vector<int> ans_1 = bfs(17, 9, edges_1, 16);
-//    for (int i = 0; i < ans_1.size(); ++i) printf("%d ", ans_1[i]);
+    vector<int> ans_1 = bfs(17, 9, edges_1, 1);
+    for (int i = 0; i < ans_1.size(); ++i) printf("%d ", ans_1[i]);
     printf("\n");
     
     
