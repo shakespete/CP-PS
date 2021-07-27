@@ -48,19 +48,17 @@ class Graph {
 public:
     Graph(int nodes);
     void addEdge(int v, int w);
-    void BFS(int start, int target);
-    int* valArray;
+    void BFS(int start);
+    int* visited;
 private:
     int n;          // Number of vertices
     int** adjList;  // Adjacency list
-    int* visited;
 };
 
 Graph::Graph(int nodes) {
     n = nodes;
     adjList = new int*[n];
     visited = new int[n]{0};
-    valArray = new int[n]{0};
     
     for (int i = 1; i < n; ++i)
         adjList[i] = new int[n]{0};
@@ -69,7 +67,7 @@ void Graph::addEdge(int v, int w) {
     adjList[v][w] = 1;
     adjList[w][v] = 1;
 }
-void Graph::BFS(int start, int target) {
+void Graph::BFS(int start) {
     int m = (n * (n - 1)) / 2;
     Queue* q = new Queue(m);
     q->enq(start, 0);
@@ -79,15 +77,20 @@ void Graph::BFS(int start, int target) {
         int key = node->key;
         int acc = node->value;
         
-        valArray[key] = acc;
-        visited[key] = 1;
-        
         // printf("%d (%d)\n", key, acc);
-        for (int i = 1; i < n; ++i)
-            if (adjList[key][i] == 1)
-                if (visited[i] != 1)
-                    q->enq(i, acc + 6);
+        for (int i = 1; i < n; ++i) {
+            if (adjList[key][i] == 1 && start != i) {
+                if (visited[i] == 0 || acc < visited[i]) {
+                    int sum = acc + 6;
+                    visited[i] = sum;
+                    q->enq(i, sum);
+                }
+            }
+        }
     }
+    
+//    for (int i = 1; i < n; ++i) printf("%d ", visited[i]);
+//    printf("\n");
 }
 
 vector<int> bfs(int n, int m, vector<vector<int>> edges, int s) {
@@ -97,10 +100,10 @@ vector<int> bfs(int n, int m, vector<vector<int>> edges, int s) {
     Graph* g = new Graph(nodes);
     for (auto& edge: edges) g->addEdge(edge[0], edge[1]);
     
-    g->BFS(s, n);
+    g->BFS(s);
     for (int i = 1; i < nodes; ++i) {
         if (i != s) {
-            int val = g->valArray[i];
+            int val = g->visited[i];
             if (val == 0) ans.push_back(-1);
             else ans.push_back(val);
         }
