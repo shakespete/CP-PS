@@ -6,6 +6,7 @@
 //
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <time.h>
 
 
 int* vestigium(int** grid, int N) {
@@ -28,6 +29,9 @@ int* vestigium(int** grid, int N) {
 }
 
 int main() {
+    clock_t start, end;
+    start = clock();
+    
     freopen("input.txt", "r", stdin);
     
     int T, N, k, r, c;
@@ -52,12 +56,12 @@ int main() {
                 int val;
                 scanf("%d", &val);
                 
-                if (rowVis[i] == 0 && rows[i][val - 1] == 1) {
+                if (rowVis[i] != 1 && rows[i][val - 1] == 1) {
                     rowVis[i] = 1;
                     r++;
                 }
                 
-                if (colVis[j] == 0 && cols[j][val - 1] == 1) {
+                if (colVis[j] != 1 && cols[j][val - 1] == 1) {
                     colVis[j] = 1;
                     c++;
                 }
@@ -75,9 +79,12 @@ int main() {
             }
             printf("\n");
         }
-        
-//        int* ans = vestigium(grid, N);
         printf("Case #%d: %d %d %d\n", test_case, k, r, c);
     }
+    
+    end = clock();
+    
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    printf("Time taken: %.6fs\n", time_taken);
     return 0;
 }
