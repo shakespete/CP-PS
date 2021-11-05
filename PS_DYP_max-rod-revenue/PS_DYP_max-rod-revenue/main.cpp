@@ -44,7 +44,10 @@ int bottomUpCutRod(vector<int> &price) {
     for (int j = 1; j <= rodLength; ++j) {
         int r = -1;
         for (int i = 1; i <= j; ++i) {
-            r = max(r, price[i] + revenue[j - i]);
+            if (r < price[i] + revenue[j - i]) {
+                r = price[i] + revenue[j - i];
+                printf("Rod lengths: %d + %d => %d\n", i, j - i, r);
+            }
         }
         revenue[j] = r;
     }
