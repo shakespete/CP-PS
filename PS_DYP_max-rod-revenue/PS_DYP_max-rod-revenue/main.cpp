@@ -12,7 +12,7 @@
 using namespace std;
 
 
-// Top-down with memoization
+// Top-down with memoization O(n^2)
 int memoizedCutRodAux(vector<int> &price, int n, vector<int> &revenue) {
     if (revenue[n] >= 0) return revenue[n];
     
@@ -35,26 +35,32 @@ int memoizedCutRod(vector<int> &price) {
     return memoizedCutRodAux(price, rodLength, revenue);
 }
 
-// Bottom-up
+// Bottom-up O(n^2)
 int bottomUpCutRod(vector<int> &price) {
     int N = (int)price.size();
     int rodLength = N - 1;
-    vector<int> revenue(N, -1);
-    revenue[0] = 0;
+    vector<int> maxRevenue(N, -1);
+    maxRevenue[0] = 0;
+    
     for (int j = 1; j <= rodLength; ++j) {
-        int r = -1;
-        printf("Max length: %d ------------- \n", j);
-        for (int i = 1; i <= j; ++i) {
-            printf("1st length: %d\n", i);
-            printf("2nd length: %d\n", j - i);
-            if (r < price[i] + revenue[j - i]) {
-                r = price[i] + revenue[j - i];
-                printf("Higher revenue lengths: %d + %d => %d\n", i, j - i, r);
+        int revenue = -1;
+        printf(" ****** %d inch rod ****** \n", j);
+        
+        for (int lenA = 1; lenA <= j; ++lenA) {
+            int lenB = j - lenA;
+            printf("1st length: %d\n", lenA);
+            printf("2nd length: %d\n", lenB);
+            
+            if (price[lenA] + maxRevenue[lenB] > revenue) {
+                revenue = price[lenA] + maxRevenue[lenB];
+                printf("Higher revenue cuts: %d + %d => %d\n", lenA, lenB, revenue);
             }
         }
-        revenue[j] = r;
+        
+        printf("----------- Max revenue for %d inch rod: %d -----------\n", j, revenue);
+        maxRevenue[j] = revenue;
     }
-    return revenue[rodLength];
+    return maxRevenue[rodLength];
 }
 
 int main() {
