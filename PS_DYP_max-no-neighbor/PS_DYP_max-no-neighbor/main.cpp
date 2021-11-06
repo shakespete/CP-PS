@@ -27,10 +27,29 @@ int maxNoNeighbor(vector<int> array) {
     return maxValues[N - 1];
 }
 
+// Time: O(n) Space: O(1)
+int maxNoNeighborOptimised(vector<int> array) {
+    int N = (int)array.size();
+    if (array.size() == 0) return 0;
+    if (array.size() == 1) return array[0];
+    
+    int sumA = array[0];
+    int sumB = max(array[0], array[1]);
+    for (int i = 2; i < N; ++i) {
+        int current = array[i] + sumA;
+        
+        sumA = sumB;
+        sumB = max(sumB, current);
+    }
+    return sumB;
+}
+
 int main() {
     vector<int> arr{75, 105, 120, 75, 90, 135};
     int ans = maxNoNeighbor(arr);
     printf("%d\n", ans);
+    int ans1 = maxNoNeighborOptimised(arr);
+    printf("%d\n", ans1);
     printf("FIN\n");
     return 0;
 }
