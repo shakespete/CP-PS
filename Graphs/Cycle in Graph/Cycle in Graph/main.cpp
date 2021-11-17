@@ -13,15 +13,18 @@ using namespace std;
 
 bool dfs(int currIdx, vector<vector<int>> &edges, vector<int> &vis) {
     if (vis[currIdx] == 1) return true;
-    vis[currIdx] = 1; // Mark visited
+    vis[currIdx] = 1;
     
     // Go through this node's edges
     for (int i = 0; i < edges[currIdx].size(); ++i) {
-        bool cycle = dfs(edges[currIdx][i], edges, vis);
+        int nextVertex = edges[currIdx][i];
+        if (vis[nextVertex] == 2) continue; // Vertex has already been marked done
+        
+        bool cycle = dfs(nextVertex, edges, vis);
         if (cycle) return true;
     }
     
-    vis[currIdx] = 0; // Done: reset to 0
+    vis[currIdx] = 2; // Mark as done
     return false;
 }
 
@@ -32,9 +35,12 @@ bool hasCycle(vector<vector<int>> edges) {
     
     // Start with each vertex
     for (int i = 0; i < N; ++i) {
-        bool cycle = dfs(i, edges, vis);
-        if (cycle) return true;
+        if (vis[i] == 0) {
+            bool cycle = dfs(i, edges, vis);
+            if (cycle) return true;
+        }
     }
+    
     return false;
 }
 
