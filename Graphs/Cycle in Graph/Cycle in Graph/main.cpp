@@ -25,6 +25,7 @@ bool dfs(int currIdx, vector<vector<int>> &edges, vector<int> &vis) {
     return false;
 }
 
+// Time: O(v + e) | Space O(v)
 bool hasCycle(vector<vector<int>> edges) {
     int N = (int)edges.size();
     vector<int> vis(N, 0);
